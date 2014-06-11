@@ -1,0 +1,175 @@
+// Generate Android assets from all slices in current page (shift cmd a)
+// Assumes pixel count in Sketch is mdpi, so 1px = 1dp
+// Saves off all assets to path to current document + drawable-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}
+// File name format: ic_{prefix}_{slice name}_{suffix}_{size}.png (i.e. ic_btn_menu_pressed_24.png)
+
+#import 'library/config.js'
+
+var library = {}
+library.sandbox = {
+    // Utility: display a modal with message
+    debug: function(message){
+        var app = [NSApplication sharedApplication];
+        [app displayDialog:message withTitle:"Hey"];
+    },
+    // each-like iterator for Obj-C types
+    forEachObj: function(array, callback){
+        var count = [array count];
+        for (var i = 0; i < count; i++){
+            var el = [array objectAtIndex: i];
+            callback(el);
+        }
+    },
+    openInFinder: function(path){
+	    var finder_task = [[NSTask alloc] init],
+            open_finder_args = [NSArray arrayWithObjects:"-R", path, nil];
+
+    	[finder_task setLaunchPath:"/usr/bin/open"];
+    	[finder_task setArguments:open_finder_args];
+    	[finder_task launch];
+    }
+}
+
+function main(){
+    
+    var fileUrl = [doc fileURL];
+    if (fileUrl == null) {
+	    alert("Please save your document before exporting assets");
+	    return;
+    }
+    
+    var includeSuffix = configVars.includeSuffix;
+    var suffix = "";
+    if (includeSuffix == "yes"){
+        if (configVars.suffixName == null){
+            suffix = "_" + [[doc currentPage] name];
+        } else {
+            suffix = "_" + configVars.suffixName;
+        }
+    } 
+    
+    var includePrefix = configVars.includePrefix;
+    var prefix = "";
+    if (includePrefix == "yes"){
+        if (configVars.prefixName == null){
+            prefix = [doc askForUserInput:"Enter a prefix (like launcher, menu, dialog, etc):" initialValue:""];
+            if (prefix == null || prefix == ""){
+                prefix = "";
+            } else {
+                prefix = prefix + "_";
+            }
+        } else {
+            prefix = configVars.prefixName + "_";
+        }
+    } 
+    
+    var base_dir = get_dir_from_prompt(get_cwd());
+    if (base_dir == null){
+	    alert("Not saving any assets");
+	    return;
+    }
+
+    var size = configVars.size;
+    var page = [doc currentPage];
+    var slices = [[doc currentPage] exportableLayers];
+    
+    library.sandbox.forEachObj(slices, function(slice){
+        process_slice(slice, doc, base_dir, prefix, suffix, size);
+    });
+
+    library.sandbox.openInFinder();
+}
+
+function alert(msg){
+    var app = [NSApplication sharedApplication];
+    [app displayDialog:msg withTitle:"Hey"];
+}
+
+// Return current working directory
+// This works better for the designer's workflow, as they mostly want to
+// save assets in the current directory
+function get_cwd(){
+    var file_url = [doc fileURL],
+    file_path = [file_url path],
+    base_dir = file_path.split([doc displayName])[0];
+    return base_dir;
+}
+
+// Let the user specify a directory
+function get_dir_from_prompt(){
+    var panel = [NSOpenPanel openPanel];
+    [panel setMessage:"Where do you want to place your assets?"];
+    [panel setCanChooseDirectories: true];
+    [panel setCanChooseFiles: false];
+    var default_dir = [[doc fileURL] URLByDeletingLastPathComponent];
+    [panel setDirectoryURL:default_dir];
+    if ([panel runModal] == NSOKButton){
+	    var message = [panel filename];
+	    return message;
+    }
+}
+
+function process_slice(slice, doc, base_dir, prefix, suffix, size){
+    var frame = [slice frame];
+    var slice_name = [slice name];
+    var slice_width = "";
+    
+    if (size == "yes"){
+        slice_width = "_" + [[slice frame] width];
+    }
+    
+    var baseSize = configVars.baseSize;
+    
+    var androidFactors = [NSArray arrayWithObjects:
+        ["mdpi",1/baseSize],
+        ["hdpi", 1.5/baseSize],
+        ["xhdpi", 2/baseSize],
+        ["xxhdpi", 3/baseSize],
+        ["xxxhdpi", 4/baseSize]];
+	
+    var iOSFactors = [NSArray arrayWithObjects:
+	    ["", 1/baseSize],
+	    ["@2x", 2/baseSize]];
+
+    for (var i = 0; i < [androidFactors count]; i++){
+        var base = [androidFactors objectAtIndex:i];
+        var factor = [base objectAtIndex:1];
+        var name = [base objectAtIndex:0];
+        
+	    log("Processing " + slice_name + name + "(" + factor + ")");
+        var slice_size = [slice_width * factor];
+	    var version = copy_layer_with_factor(slice, factor);
+	    var file_name = base_dir + "/android/" + name + "/ic_" + prefix + slice_name + suffix + slice_width + ".png";
+	    [doc saveArtboardOrSlice:version toFile:file_name];
+	    log("Saved " + file_name);
+    }
+    
+    for (var i = 0; i < [iOSFactors count]; i++){
+        var base = [iOSFactors objectAtIndex:i];
+        var factor = [base objectAtIndex:1];
+        var name = [base objectAtIndex:0];
+	    log("Processing " + slice_name + name + "(" + factor + ")");
+        var slice_size = [slice_width * factor];
+	    var version = copy_layer_with_factor(slice, factor);
+	    var file_name = base_dir + "/iOS/ic_" + prefix + slice_name + suffix + slice_width + name + ".png";
+	    [doc saveArtboardOrSlice:version toFile:file_name];
+	    log("Saved " + file_name);
+    }
+}
+
+
+function copy_layer_with_factor(original_slice, factor){
+    var copySlice = [original_slice duplicate];
+    var frame = [copySlice frame];
+
+    var rect = [copySlice rectByAccountingForStyleSize:[[copySlice absoluteRect] rect]],
+    slice = [MSSlice sliceWithRect:rect scale:factor];
+    [copySlice removeFromParent];
+    
+    log("Slicing " + slice);
+
+    return slice;
+}
+
+
+main();
