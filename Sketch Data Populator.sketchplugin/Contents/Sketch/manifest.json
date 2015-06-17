@@ -1,0 +1,40 @@
+{
+    "name": "Sketch Data Populator",
+    "description": "Say goodbye to Lorem Ipsum: populate your Sketch documents with meaningful data.",
+    "identifier": "com.precious-forever.sketch.datapopulator",
+    "version": "1.0",
+    "commands": [{
+        "name": "Populate with Preset",
+        "identifier": "populateWithPreset",
+        "script": "plugin.cocoascript",
+        "handler": "populateWithPresetHandler",
+        "shortcut": ""
+    }, {
+        "name": "Populate with JSON",
+        "identifier": "populateWithJSON",
+        "script": "plugin.cocoascript",
+        "handler": "populateWithJSONHandler",
+        "shortcut": ""
+    }, {
+        "name": "Populate Again",
+        "identifier": "populateAgain",
+        "script": "plugin.cocoascript",
+        "handler": "populateAgainHandler",
+        "shortcut": ""
+    }, {
+        "name": "Reveal Presets",
+        "identifier": "revealPresets",
+        "script": "plugin.cocoascript",
+        "handler": "revealPresetsHandler",
+        "shortcut": ""
+    }],
+    "menu": {
+        "isRoot": false,
+        "items": [
+            "populateWithJSON",
+            "populateWithPreset",
+            "populateAgain",
+            "revealPresets"
+        ],
+    }
+}
