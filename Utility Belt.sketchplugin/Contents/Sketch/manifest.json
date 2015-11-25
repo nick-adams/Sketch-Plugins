@@ -1,0 +1,177 @@
+{
+	"author" : "Frank Kolodziej",
+  "commands" : [
+    {
+      "script" : "font.cocoascript",
+      "handler" : "list_all_fonts",
+      "shortcut" : "",
+      "name" : "List all Fonts",
+      "identifier" : "UBFont-listallfonts"
+    },
+    {
+      "script" : "image.cocoascript",
+      "handler" : "clipboard_image_to_image_fill",
+      "shortcut" : "",
+      "name" : "Image (Clipboard) to Layer Pattern Fill",
+      "identifier" : "UBImage-clipboardtoimagefill"
+    },
+    {
+      "script" : "image.cocoascript",
+      "handler" : "url_to_image_fill",
+      "shortcut" : "",
+      "name" : "Image (URL) to Layer Pattern Fill",
+      "identifier" : "UBImage-urltoimagefill"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "remove_all_guides_from_artboard",
+      "shortcut" : "",
+      "name" : "Remove Guides from Selected Artboard",
+      "identifier" : "UBguide-removeallguidesfromartboard"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "selected_to_guides_horizontal",
+      "shortcut" : "",
+      "name" : "Selected Layer to Guides (Horizontal)",
+      "identifier" : "UBguide-selectedtoguideshorizontal"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "selected_to_guides_vertical",
+      "shortcut" : "",
+      "name" : "Selected Layer to Guides (Vertical)",
+      "identifier" : "UBguide-selectedtoguidesvertical"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "selected_to_guides",
+      "shortcut" : "",
+      "name" : "Selected Layer to Guides (Both)",
+      "identifier" : "UBguide-selectedtoguides"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "selected_to_center_guides_horizontal",
+      "shortcut" : "",
+      "name" : "Selected Layer to Center Guide (Horizontal)",
+      "identifier" : "UBguide-selectedtocenterguideshorizontal"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "selected_to_center_guides_vertical",
+      "shortcut" : "",
+      "name" : "Selected Layer to Center Guide (Vertical)",
+      "identifier" : "UBguide-selectedtocenterguidesvertical"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "selected_to_center_guides",
+      "shortcut" : "",
+      "name" : "Selected Layer to Center Guide (Both)",
+      "identifier" : "UBguide-selectedtocenterguides"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "new_guide_at_y",
+      "shortcut" : "",
+      "name" : "New Horizontal Guide at…",
+      "identifier" : "UBguide-newguideaty"
+    },
+    {
+      "script" : "guide.cocoascript",
+      "handler" : "new_guide_at_x",
+      "shortcut" : "",
+      "name" : "New Vertical Guide at…",
+      "identifier" : "UBguide-newguideatx"
+    },
+    {
+      "script" : "move.cocoascript",
+      "handler" : "move_selected_to_x_y",
+      "shortcut" : "",
+      "name" : "Move Selected Layers to [x,y]",
+      "identifier" : "UBMove-moveselectedtoxy"
+    },
+    {
+      "script" : "select.cocoascript",
+      "handler" : "select_layers_by_name",
+      "shortcut" : "",
+      "name" : "Select Layers by Name",
+      "identifier" : "UBSelect-selectlayersbyname"
+    },
+    {
+      "script" : "select.cocoascript",
+      "handler" : "select_layers_by_font_name",
+      "shortcut" : "",
+      "name" : "Select Layers by Font Name",
+      "identifier" : "UBSelect-selectlayersbyfontname"
+    },
+    {
+      "script" : "select.cocoascript",
+      "handler" : "select_similar_color_border",
+      "shortcut" : "",
+      "name" : "Select Similar Color Border",
+      "identifier" : "UBSelect-selectsimilarcolorborder"
+    },
+    {
+      "script" : "select.cocoascript",
+      "handler" : "select_similar_color_fill",
+      "shortcut" : "",
+      "name" : "Select Similar Color Fill",
+      "identifier" : "UBSelect-selectsimilarcolorfill"
+    }
+  ],
+  "menu" : {
+    "items" : [
+      {
+        "items": [
+          "UBFont-listallfonts"
+        ],
+        "title": "Font"
+      },
+      {
+        "items": [
+          "UBImage-clipboardtoimagefill",
+          "UBImage-urltoimagefill"
+        ],
+        "title": "Image"
+      },
+      {
+        "items": [
+          "UBguide-newguideaty",
+          "UBguide-newguideatx",
+          "UBguide-selectedtoguideshorizontal",
+          "UBguide-selectedtoguidesvertical",
+          "UBguide-selectedtoguides",
+          "UBguide-selectedtocenterguideshorizontal",
+          "UBguide-selectedtocenterguidesvertical",
+          "UBguide-selectedtocenterguides",
+          "UBguide-removeallguidesfromartboard"
+        ],
+        "title": "Guide"
+      },
+      {
+        "items": [
+          "UBMove-moveselectedtoxy"
+        ],
+        "title": "Move"
+      },
+      {
+        "items": [
+          "UBSelect-selectlayersbyname",
+          "UBSelect-selectlayersbyfontname",
+          "UBSelect-selectsimilarcolorborder",
+          "UBSelect-selectsimilarcolorfill"
+        ],
+        "title": "Select"
+      }
+    ],
+    "title" : "★ Utility Belt"
+  },
+  "identifier" : "io.kolo.sketch.utility-belt",
+  "compatibleVersion": "3.3",
+  "version" : "0.1",
+  "description" : "An always-expanding collection of small, simple, focused plugins for Sketch.",
+  "authorEmail" : "frank@kolo.io",
+  "name" : "Utility Belt"
+}

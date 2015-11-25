@@ -1,0 +1,29 @@
+@import "_utilitybelt.js"
+
+var move_selected_to_x_y = function(context) {
+  var doc = context.document;
+  var page = [doc currentPage];
+  var selection = context.selection;
+
+  if ([selection count] > 0) {
+    var minX, minY;
+    var layersRect = UtilityBelt.layer.getRect(selection);
+
+    minX = layersRect.left;
+    minY = layersRect.top;
+
+    var newXY = [doc askForUserInput:"Enter new x,y:" initialValue:minX + ',' + minY];
+    if (newXY) {
+      var newCoords = newXY.split(',');
+
+      if (isNaN(newCoords[0]) || isNaN(newCoords[1])) {
+        UtilityBelt.util.displayAlert("Move Selection…","Canceling. Enter coordinates in format “x,y”");
+      } else {
+        var newX = parseFloat(newCoords[0]);
+        var newY = parseFloat(newCoords[1]);
+
+        UtilityBelt.layer.moveLayersToXY(selection,newX,newY);
+      }
+    }
+  }
+};
